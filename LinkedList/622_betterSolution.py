@@ -60,3 +60,52 @@ class MyCircularQueue:
 # param_4 = obj.Rear()
 # param_5 = obj.isEmpty()
 # param_6 = obj.isFull()
+
+
+#This was my first thought
+class Node:
+    def __init__(self,val,next=None):
+        self.val = val
+        self.next = next
+
+class MyCircularQueue:
+    def __init__(self, k: int):
+        self.head = Node(-1)
+        self.k = k
+        self.curr = self.head
+        self.count = 0
+
+    def enQueue(self, value: int) -> bool:
+        if self.count<self.k:
+            self.curr.next = Node(value)
+            self.curr = self.curr.next
+            self.count+=1
+            return True
+        return False     
+
+    def deQueue(self) -> bool:
+        if self.count>0:
+            self.head.next = self.head.next.next
+            self.count-=1
+            if self.count == 0:
+                self.curr = self.head
+            return True
+        return False
+        
+    def Front(self) -> int:
+        if self.count>0:
+            return self.head.next.val
+        return -1
+
+    def Rear(self) -> int:
+        if self.count>0:
+            return self.curr.val
+        return -1
+        
+
+    def isEmpty(self) -> bool:
+        return self.count==0
+        
+
+    def isFull(self) -> bool:
+        return self.count==self.k
